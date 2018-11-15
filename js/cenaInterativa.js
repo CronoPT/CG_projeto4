@@ -3,10 +3,15 @@
 ---------------------------------------------------------------------*/
 var camera, scene, renderer, clock, controls;
 
-var upCamera;
+var orthoCamera;
 var prespCamera;
 
 var poolBall;
+var chess;
+
+var paused;
+var pausedScene;
+var pauseScreen;
 
 /*--------------------------------------------------------------------
 | Function: init
@@ -22,21 +27,23 @@ function init(){
 	document.body.appendChild(renderer.domElement);
 
 	createScene();
+	createPausedScene();
 
-	createPrespCamera(40);
-	createUpCamera(200);
+	createPrespCamera(100);
+	createOrthoCamera(100);
 
 	camera = prespCamera;
 
-	controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls = new THREE.OrbitControls(prespCamera, renderer.domElement);
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.25;
 	controls.screenSpacePanning = false;
 	controls.minDistance = 100;
 	controls.maxDistance = 500;
 	controls.maxPolarAngle = Math.PI / 2;
+	paused = false;
 
-	render();
+	render(scene, prespCamera);
 			
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
@@ -49,17 +56,25 @@ function init(){
 ---------------------------------------------------------------------*/
 function animate(){
 	'use strict';
-	var delta = clock.getDelta();
 
-	render();
+	var delta = clock.getDelta();
+	if(paused){
+
+		render(pausedScene, orthoCamera);
+	}
+	else{
+		poolBall.move(delta);
+		render(scene, prespCamera);
+	}
 	requestAnimationFrame(animate);
 }
 
 /*--------------------------------------------------------------------
 | Function: render
 ---------------------------------------------------------------------*/
-function render(){
+function render(scene, camera){
 	'use strict';
+
 	renderer.render(scene,camera);
 }
 
@@ -67,15 +82,35 @@ function render(){
 | Function: createScene
 ---------------------------------------------------------------------*/
 function createScene(){
-	'use strict';
+	'use strict';	
 
 	scene = new THREE.Scene();
 	scene.add(new THREE.AxesHelper(210));
 	
-	poolBall = new PoolBall(10, "images/poolBall.png");
+	poolBall = new PoolBall(10, "images/poolBall.png", 90);
+
+	chess = new TexturedPlane(0, 0, 0, 200, 200, "images/Chess.jpg");
 
 	scene.add(poolBall);
+	scene.add(chess);
 	scene.add(new THREE.DirectionalLight(0xffffff));
+}
+
+/*--------------------------------------------------------------------
+| Function: createPausedScene
+---------------------------------------------------------------------*/
+function createPausedScene(){
+	'use strict';
+
+	pausedScene = new THREE.Scene();
+
+	var aspect = window.innerWidth / window.innerHeight; 
+
+	pauseScreen = new TexturedPlane(0, 0, 0, 100, 100, "images/p2.gif");
+	pauseScreen.rotation.x = Math.PI;
+
+	pausedScene.add(new THREE.AmbientLight(0xffffff));
+	pausedScene.add(pauseScreen);
 }
 
 /*--------------------------------------------------------------------
@@ -88,7 +123,7 @@ function onResize(){
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
 	updatePerspectiveCamera(prespCamera);
-	updateOrthographicCamera(upCamera);
+	updateOrthographicCamera(orthoCamera);
 }
 
 /*--------------------------------------------------------------------
@@ -109,7 +144,7 @@ function updatePerspectiveCamera(camera){
 function updateOrthographicCamera(camera){
 	'use strict';
 
-	var viewHeight = 300;
+	var viewHeight = 100;
 	var aspect = window.innerWidth / window.innerHeight;
 
 	if(window.innerHeight>0 && window.innerWidth>0){
@@ -123,6 +158,13 @@ function updateOrthographicCamera(camera){
 }	
 
 /*--------------------------------------------------------------------
+| Function: reset
+---------------------------------------------------------------------*/
+function reset(){
+
+}
+
+/*--------------------------------------------------------------------
 | CAMERAS
 ---------------------------------------------------------------------*/
 function createPrespCamera(threshold){
@@ -133,24 +175,20 @@ function createPrespCamera(threshold){
 
 	prespCamera.position.set(1.8*threshold, threshold,
 								threshold/2);
-	prespCamera.lookAt(threshold/2, 0, threshold/2);
+	prespCamera.lookAt(0, 0, 0);
 }
 
-function createUpCamera(threshold){
+function createOrthoCamera(threshold){
 	'use strict';
 
-	var viewHeight  = 300;
+	var viewHeight  = threshold;
 	var aspectratio = window.innerWidth / window.innerHeight;
 
-	upCamera = new THREE.OrthographicCamera(aspectratio*viewHeight/2,
-										   -aspectratio*viewHeight/2,
-										   -viewHeight/2,
-	   									    viewHeight/2,
-	   									   -1000, 1000);
-	
-	upCamera.position.set(threshold/2, (3/2)*threshold, 
-							threshold*(3/2));
-	upCamera.lookAt(threshold/2, threshold/2, threshold/2);
+	orthoCamera = new THREE.OrthographicCamera(50, -50, -50, 50,
+	   									   	   -1000, 1000);
+	orthoCamera.position.set(0, 100, 0);
+	orthoCamera.lookAt(0, 0, 0);
+	orthoCamera.rotation.z = Math.PI;
 }
 
 /*--------------------------------------------------------------------
@@ -158,22 +196,8 @@ function createUpCamera(threshold){
 ---------------------------------------------------------------------*/
 function onKeyDown(e){
 	'use strict';
-	
+
 	switch(e.keyCode){
-		case 37: //left arrow
-			
-			break;
-		case 39: //right arrow
-
-			break;
-
-		case 38: //up arrow
-
-			break;
-
-		case 40: //down arrow
-
-			break;
 
 		case 49: //1
 			
@@ -204,6 +228,11 @@ function onKeyDown(e){
 			});
 			break;
 		
+		case 66://B
+		case 98://b
+			poolBall.toggleAcceleration();
+			break;
+
 		case 71:  // G
 		case 103: // g
 			
@@ -211,8 +240,19 @@ function onKeyDown(e){
 
 		case 76:  // L
 		case 108: // l
-			
+	
 			break;
+
+		case 80:  // P
+		case 112: //p
+			paused = !paused;
+			break;
+		case 82:  //R
+		case 114: //r
+			if(paused)
+				poolBall.reset();
+			break;
+
 	}
 
 

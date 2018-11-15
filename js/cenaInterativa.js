@@ -1,12 +1,13 @@
 /*--------------------------------------------------------------------
 | Cena Interativa
 ---------------------------------------------------------------------*/
-
-var camera, scene, renderer, clock;
+var camera, scene, renderer, clock, controls;
 
 var upCamera;
 var prespCamera;
- 
+
+var poolBall;
+
 /*--------------------------------------------------------------------
 | Function: init
 ---------------------------------------------------------------------*/
@@ -22,12 +23,21 @@ function init(){
 
 	createScene();
 
-	createPrespCamera(200);
+	createPrespCamera(40);
 	createUpCamera(200);
 
 	camera = prespCamera;
-	render();
 
+	controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls.enableDamping = true;
+	controls.dampingFactor = 0.25;
+	controls.screenSpacePanning = false;
+	controls.minDistance = 100;
+	controls.maxDistance = 500;
+	controls.maxPolarAngle = Math.PI / 2;
+
+	render();
+			
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
 	window.addEventListener("keyup", onKeyUp);
@@ -62,7 +72,10 @@ function createScene(){
 	scene = new THREE.Scene();
 	scene.add(new THREE.AxesHelper(210));
 	
+	poolBall = new PoolBall(10, "images/poolBall.png");
 
+	scene.add(poolBall);
+	scene.add(new THREE.DirectionalLight(0xffffff));
 }
 
 /*--------------------------------------------------------------------

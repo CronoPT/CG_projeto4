@@ -8,6 +8,7 @@ var prespCamera;
 
 var poolBall;
 var chess;
+var cube;
 
 var paused;
 var pausedScene;
@@ -91,9 +92,12 @@ function createScene(){
 
 	chess = new TexturedPlane(0, 0, 0, 200, 200, "images/Chess.jpg");
 
+	cube = new rubik(20,15,20,20);
 	scene.add(poolBall);
 	scene.add(chess);
+	scene.add(cube);
 	scene.add(new THREE.DirectionalLight(0xffffff));
+
 }
 
 /*--------------------------------------------------------------------

@@ -10,10 +10,14 @@ var poolBall;
 var chess;
 var cube;
 
+var directLight;
+var pointLight;
+
 var paused;
 var pausedScene;
 var pauseScreen;
 
+var light = true;
 /*--------------------------------------------------------------------
 | Function: init
 ---------------------------------------------------------------------*/
@@ -92,11 +96,19 @@ function createScene(){
 
 	chess = new TexturedPlane(0, 0, 0, 200, 200, "images/Chess.jpg");
 
-	cube = new rubik(20,15,20,20);
+	cube = new rubik(0,25,0,50);
 	scene.add(poolBall);
 	scene.add(chess);
 	scene.add(cube);
-	scene.add(new THREE.DirectionalLight(0xffffff));
+
+	directLight = new THREE.DirectionalLight(0xaaaaaa,1);
+	directLight.position.set(50,50,50);
+	scene.add(directLight);
+
+	pointLight= new THREE.PointLight(0xaaaaaa,1,2000);
+	pointLight.position.set(-40,100,-40);
+	scene.add(pointLight);
+	
 
 }
 
@@ -200,7 +212,7 @@ function createOrthoCamera(threshold){
 ---------------------------------------------------------------------*/
 function onKeyDown(e){
 	'use strict';
-
+	console.log(e);
 	switch(e.keyCode){
 
 		case 49: //1
@@ -237,6 +249,10 @@ function onKeyDown(e){
 			poolBall.toggleAcceleration();
 			break;
 
+		case 68: //D
+		case 100: //d
+			directLight.intensity = (directLight.intensity + 1)%2;
+
 		case 71:  // G
 		case 103: // g
 			
@@ -244,17 +260,32 @@ function onKeyDown(e){
 
 		case 76:  // L
 		case 108: // l
-	
+			if(light == true){
+				cube.lightOff();
+				poolBall.lightOff();
+			}
+			else{
+				cube.lightOn();
+				poolBall.lightOn();
+			}
+			light = !light;
 			break;
 
-		case 80:  // P
+		case 80: //P
 		case 112: //p
+			pointLight.intensity = (pointLight.intensity +1) %2;
+			break;
+
+
+		case 83:  //S
+		case 115: //s
 			paused = !paused;
 			break;
 		case 82:  //R
 		case 114: //r
 			if(paused)
 				poolBall.reset();
+			    paused = !paused;
 			break;
 
 	}

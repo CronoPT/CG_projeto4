@@ -3,6 +3,7 @@
 ---------------------------------------------------------------------*/
 
 const ACCEL = 0.5;
+const MAXSPEED = 3;
 
 class PoolBall extends THREE.Object3D{  
     constructor(radius, src, trajRadius){
@@ -10,10 +11,11 @@ class PoolBall extends THREE.Object3D{
 
         super();
         
-        this.material = this.setPhongMaterial(src);
+        this.materialPhong = this.setPhongMaterial(src);
+        this.materialBasic = this.setBasicMaterial(src);
         this.geometry = this.setGeometry(radius);
 
-        this.mesh = new THREE.Mesh(this.geometry, this.material)
+        this.mesh = new THREE.Mesh(this.geometry, this.materialPhong)
 
         this.add(new THREE.AxesHelper(radius*3));
         this.add(this.mesh);
@@ -37,10 +39,19 @@ class PoolBall extends THREE.Object3D{
             color: 0xffffff, 
             specular: 0xffffff,
             shininess: 50,
-            map: texture
+            map: texture,
         });
 
         return material;
+    }
+
+    setBasicMaterial(src){
+    	'use strict';
+    	var texture = new THREE.TextureLoader().load(src);
+    	var material = new THREE.MeshBasicMaterial();
+    	material.map = texture;
+    	return material;
+
     }
 
     setGeometry(radius){
@@ -61,9 +72,10 @@ class PoolBall extends THREE.Object3D{
 
     move(delta){
         'use strict';
-
+        console.log(this.speed);
         if(this.accelerating){
-            this.speed += this.accel * delta;
+        	if(this.speed < MAXSPEED)
+            	this.speed += this.accel * delta;
         }
         else if(this.accel != 0){   
             this.speed -= this.accel * delta;
@@ -93,5 +105,14 @@ class PoolBall extends THREE.Object3D{
         this.accelerating = false;
         this.position.set(-this.trajectoryRadius, this.radius, 0);
         console.table(this.rotation);
+    }
+
+
+    lightOn(){
+    	this.mesh.material = this.materialPhong;
+    }
+
+    lightOff(){
+    	this.mesh.material = this.materialBasic;
     }
 }

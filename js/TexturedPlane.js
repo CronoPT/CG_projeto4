@@ -14,7 +14,7 @@ class TexturedPlane extends	THREE.Object3D{
 
 		var texture = new THREE.TextureLoader().load(src);
 		
-	    var material =  new THREE.MeshPhongMaterial({ map: texture, side: THREE.DoubleSide, shininess: 2, specular: "white"});
+	    var material =  new THREE.MeshPhongMaterial({ map: texture, side: THREE.DoubleSide, shininess: 1, specular: "white"});
 
 		var plane = new THREE.Mesh(this.geometry, material);
 		plane.rotateX(Math.PI/2);

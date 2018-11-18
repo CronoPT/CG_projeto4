@@ -43,10 +43,18 @@ class rubik extends THREE.Object3D{
 		this.mesh.position.set(posX,posY,posZ);
 		this.add(this.mesh);
 	
+	}
 
+	reset(){
+		for(var i=0;i< 6;i++){
+			
+			// reset wireframe
+			this.materialPhongFaces[i].wireframe = false;
+			this.materialBasicFaces[i].wireframe = false;
+		}
 
-
-
+		// reset materials
+		this.mesh.material = this.materialPhongFaces;
 	}
 
 

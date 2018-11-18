@@ -45,6 +45,15 @@ class TexturedPlane extends	THREE.Object3D{
 		});
     	return material;
 	}
+
+	reset(){
+		// reset wireframe
+		this.materialPhong.wireframe = false;
+		this.materialBasic.wireframe = false;
+
+		// reset material
+		this.mesh.material = this.materialPhong;
+	}
 	
 	lightOn(){
     	this.mesh.material = this.materialPhong;

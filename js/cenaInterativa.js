@@ -200,6 +200,8 @@ function createOrthoCamera(){
 ---------------------------------------------------------------------*/
 function reset(){
 	poolBall.reset();
+	cube.reset();
+	chess.reset();
 	prespCamera.position.set(180, 100, 50); //initial position
 	prespCamera.lookAt(0, 0, 0);
 }

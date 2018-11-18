@@ -105,6 +105,14 @@ class PoolBall extends THREE.Object3D{
         this.angle = -Math.PI/2;
         this.accelerating = false;
         this.position.set(-this.trajectoryRadius, this.radius, 0);
+        
+        // reset wireframe
+        this.materialPhong.wireframe = false;
+        this.materialBasic.wireframe = false;
+        
+        // reset material
+        this.mesh.material = this.materialPhong;
+
         console.table(this.rotation);
     }
 
@@ -121,5 +129,7 @@ class PoolBall extends THREE.Object3D{
 		this.materialPhong.wireframe = ! this.materialPhong.wireframe;
 		this.materialBasic.wireframe = ! this.materialBasic.wireframe;
     }
+
+
 
 }

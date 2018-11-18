@@ -18,6 +18,7 @@ var pausedScene;
 var pauseScreen;
 
 var light = true;
+
 /*--------------------------------------------------------------------
 | Function: init
 ---------------------------------------------------------------------*/
@@ -120,9 +121,7 @@ function createPausedScene(){
 
 	pausedScene = new THREE.Scene();
 
-	var aspect = window.innerWidth / window.innerHeight; 
-
-	pauseScreen = new TexturedPlane(0, 0, 0, 100, 100, "images/p2.gif");
+	pauseScreen = new TexturedPlane(0, 0, 0, 100, 100, "images/pause_0.gif");
 	pauseScreen.rotation.x = Math.PI;
 
 	pausedScene.add(new THREE.AmbientLight(0xffffff));
@@ -177,28 +176,25 @@ function updateOrthographicCamera(camera){
 | Function: reset
 ---------------------------------------------------------------------*/
 function reset(){
-
+	poolBall.reset();
+	prespCamera.position.set(180, 100, 50); //initial position
 }
 
 /*--------------------------------------------------------------------
 | CAMERAS
 ---------------------------------------------------------------------*/
-function createPrespCamera(threshold){
+function createPrespCamera(){
 	'use strict';
 	prespCamera = new THREE.PerspectiveCamera(80,
 											  window.innerWidth / window.innerHeight,
 											  1,1000);
 
-	prespCamera.position.set(1.8*threshold, threshold,
-								threshold/2);
+	prespCamera.position.set(180, 100, 50);
 	prespCamera.lookAt(0, 0, 0);
 }
 
-function createOrthoCamera(threshold){
+function createOrthoCamera(){
 	'use strict';
-
-	var viewHeight  = threshold;
-	var aspectratio = window.innerWidth / window.innerHeight;
 
 	orthoCamera = new THREE.OrthographicCamera(50, -50, -50, 50,
 	   									   	   -1000, 1000);
@@ -237,11 +233,14 @@ function onKeyDown(e){
 	
 		case 65://A
 		case 97://a
-			scene.traverse(function(node){
-				if(node instanceof THREE.Mesh){
-					node.material.wireframe = !node.material.wireframe;
-				}
-			});
+			// scene.traverse(function(node){
+			// 	if(node instanceof THREE.Mesh){
+			// 		node.material.wireframe = !node.material.wireframe;
+			// 	}
+			// });
+			poolBall.switchWireframe();
+			chess.switchWireframe();
+			cube.switchWireframe();
 			break;
 		
 		case 66://B
@@ -283,9 +282,10 @@ function onKeyDown(e){
 			break;
 		case 82:  //R
 		case 114: //r
-			if(paused)
-				poolBall.reset();
-			    paused = !paused;
+			if(paused){
+				reset();
+				paused = false;
+			}
 			break;
 
 	}

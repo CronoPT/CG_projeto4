@@ -4,35 +4,59 @@
 class TexturedPlane extends	THREE.Object3D{
 
 
-	constructor(posX, posY, posZ, height, width, src, textureRot){
+	constructor(posX, posY, posZ, height, width, src){
 		'use strict';
 
 		super();
 
-		this.geometry = new THREE.PlaneGeometry(width, height);
+		this.geometry = new THREE.PlaneGeometry(width, height, 20, 20);
 
-
-		var texture = new THREE.TextureLoader().load(src);
+		this.materialPhong = this.setPhongMaterial(src);
+        this.materialBasic = this.setBasicMaterial(src);
 		
-	    var material =  new THREE.MeshPhongMaterial({ map: texture, side: THREE.DoubleSide, shininess: 1, specular: "white"});
-
-		var plane = new THREE.Mesh(this.geometry, material);
-		plane.rotateX(Math.PI/2);
-		plane.position.set(posX, posY, posZ);	
-		this.add(plane);
+		this.mesh = new THREE.Mesh(this.geometry, this.materialPhong);
+		this.mesh.rotateX(Math.PI/2);
+		this.mesh.position.set(posX, posY, posZ);	
+		this.add(this.mesh);
 
 	}
 
+	setPhongMaterial(src){
+        'use strict';
 
+        var texture = new THREE.TextureLoader().load(src); 
+        var material = new THREE.MeshPhongMaterial({ 
+			color:0xffffff, 
+			map: texture, 
+			side: THREE.DoubleSide, 
+			shininess: 1, 
+			specular: "white"
+		});
 
+        return material;
+    }
 
+    setBasicMaterial(src){
+    	'use strict';
+    	var texture = new THREE.TextureLoader().load(src);
+        var material = new THREE.MeshPhongMaterial({ 
+			map: texture, 
+			side: THREE.DoubleSide, 
+		});
+    	return material;
+	}
+	
+	lightOn(){
+    	this.mesh.material = this.materialPhong;
+    }
 
+    lightOff(){
+    	this.mesh.material = this.materialBasic;
+    }
 
-
-
-
-
-
-
+	switchWireframe(){
+		this.materialPhong.wireframe = ! this.materialPhong.wireframe;
+		this.materialBasic.wireframe = ! this.materialBasic.wireframe;
+	}
 
 }

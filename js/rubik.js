@@ -35,7 +35,7 @@ class rubik extends THREE.Object3D{
 			var texture = new THREE.TextureLoader().load(this.texturas[i]);
 			material.map = texture;
 			basicMaterial.map = texture;
-			//material.specular = 0xffffff;
+			// material.specular = 0xffffff
 	
      		texture.anisotropy = renderer.getMaxAnisotropy(); //mais textures de mipmap usadas...
 			
@@ -47,10 +47,7 @@ class rubik extends THREE.Object3D{
 
 		}
 
-		
-
-
-		var teste = new THREE.MeshBasicMaterial({color:"red"});
+	
 		var geometry = new THREE.BoxGeometry(size,size,size);
 		this.mesh = new THREE.Mesh(geometry,this.materialPhongFaces);
 		this.mesh.position.set(posX,posY,posZ);
@@ -75,6 +72,11 @@ class rubik extends THREE.Object3D{
 	}
 
 
-
+	switchWireframe(){
+		for(var i=0;i< 6;i++){
+			this.materialPhongFaces[i].wireframe = ! this.materialPhongFaces[i].wireframe;
+			this.materialBasicFaces[i].wireframe = ! this.materialBasicFaces[i].wireframe;
+		}
+	}
 
 }

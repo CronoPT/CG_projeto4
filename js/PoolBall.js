@@ -13,6 +13,7 @@ class PoolBall extends THREE.Object3D{
         
         this.materialPhong = this.setPhongMaterial(src);
         this.materialBasic = this.setBasicMaterial(src);
+        
         this.geometry = this.setGeometry(radius);
 
         this.mesh = new THREE.Mesh(this.geometry, this.materialPhong)
@@ -39,7 +40,7 @@ class PoolBall extends THREE.Object3D{
             color: 0xffffff, 
             specular: 0xffffff,
             shininess: 50,
-            map: texture,
+            map: texture
         });
 
         return material;
@@ -48,7 +49,7 @@ class PoolBall extends THREE.Object3D{
     setBasicMaterial(src){
     	'use strict';
     	var texture = new THREE.TextureLoader().load(src);
-    	var material = new THREE.MeshBasicMaterial();
+        var material = new THREE.MeshBasicMaterial();
     	material.map = texture;
     	return material;
 
@@ -57,7 +58,7 @@ class PoolBall extends THREE.Object3D{
     setGeometry(radius){
         'use strict';
 
-        var geometry = new THREE.SphereGeometry(radius, 60, 60);
+        var geometry = new THREE.SphereGeometry(radius, 20, 20);
         geometry.normalsNeedUpdate = true;
 
         return geometry;
@@ -115,4 +116,10 @@ class PoolBall extends THREE.Object3D{
     lightOff(){
     	this.mesh.material = this.materialBasic;
     }
+
+    switchWireframe(){
+		this.materialPhong.wireframe = ! this.materialPhong.wireframe;
+		this.materialBasic.wireframe = ! this.materialBasic.wireframe;
+    }
+
 }

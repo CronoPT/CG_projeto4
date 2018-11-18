@@ -8,26 +8,16 @@ class rubik extends THREE.Object3D{
 		var bumpM = new THREE.TextureLoader().load('images/bumpMap.png');
 
 		this.texturas = [
-			"images/face1.png",
-			"images/face2.png",
-			"images/face3.png",
-			"images/face4.png",
-			"images/face5.png",
-			"images/face6.png"
+			"images/yellowface.png",
+			"images/blueface.png",
+			"images/greenface.png",
+			"images/whiteface.png",
+			"images/redface.png",
+			"images/orangeface.png"
 		]
 
 		this.materialPhongFaces = new Array();
 		this.materialBasicFaces = new Array();
-
-	/*	var materialFaces = [
-			new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/face2.png'),specular: 0xffffff} ),
-			new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/face3.png'),specular: 0xffffff}),
-			new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/face4.png'),specular: 0xffffff}),
-			new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/face5.png'),specular: 0xffffff}),
-			new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/face6.png'),specular: 0xffffff}),
-			new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/face1.png'),specular: 0xffffff})
-		]
-*/
 
 		for(var i=0;i< 6;i++){
 			var material = new THREE.MeshPhongMaterial({specular:0xffffff});

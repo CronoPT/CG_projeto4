@@ -173,14 +173,6 @@ function updateOrthographicCamera(camera){
 }	
 
 /*--------------------------------------------------------------------
-| Function: reset
----------------------------------------------------------------------*/
-function reset(){
-	poolBall.reset();
-	prespCamera.position.set(180, 100, 50); //initial position
-}
-
-/*--------------------------------------------------------------------
 | CAMERAS
 ---------------------------------------------------------------------*/
 function createPrespCamera(){
@@ -201,6 +193,15 @@ function createOrthoCamera(){
 	orthoCamera.position.set(0, 100, 0);
 	orthoCamera.lookAt(0, 0, 0);
 	orthoCamera.rotation.z = Math.PI;
+}
+
+/*--------------------------------------------------------------------
+| Function: reset
+---------------------------------------------------------------------*/
+function reset(){
+	poolBall.reset();
+	prespCamera.position.set(180, 100, 50); //initial position
+	prespCamera.lookAt(0, 0, 0);
 }
 
 /*--------------------------------------------------------------------
@@ -225,22 +226,6 @@ function onKeyDown(e){
 
 		case 52: //4
 			
-			break;
-
-		case 78: //n
-			
-			break;
-	
-		case 65://A
-		case 97://a
-			// scene.traverse(function(node){
-			// 	if(node instanceof THREE.Mesh){
-			// 		node.material.wireframe = !node.material.wireframe;
-			// 	}
-			// });
-			poolBall.switchWireframe();
-			chess.switchWireframe();
-			cube.switchWireframe();
 			break;
 		
 		case 66://B
@@ -275,17 +260,25 @@ function onKeyDown(e){
 			pointLight.intensity = (pointLight.intensity +1) %2;
 			break;
 
-
-		case 83:  //S
-		case 115: //s
-			paused = !paused;
-			break;
 		case 82:  //R
 		case 114: //r
 			if(paused){
 				reset();
 				paused = false;
 			}
+			break;
+		
+		
+		case 83:  //S
+		case 115: //s
+			paused = !paused;
+			break;
+
+		case 87://W
+		case 119://w
+			poolBall.switchWireframe();
+			chess.switchWireframe();
+			cube.switchWireframe();
 			break;
 
 	}

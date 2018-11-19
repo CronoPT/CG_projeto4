@@ -1,5 +1,5 @@
 
-class rubik extends THREE.Object3D{
+class Rubik extends THREE.Object3D{
 
 
 	constructor(posX,posY,posZ,size){

@@ -36,7 +36,7 @@ function init(){
 	createPausedScene();
 
 	createPrespCamera(100);
-	createOrthoCamera(100);
+	createOrthoCamera(pauseScreen);
 
 	camera = prespCamera;
 
@@ -97,7 +97,7 @@ function createScene(){
 
 	chess = new TexturedPlane(0, 0, 0, 200, 200, "images/Chess.jpg");
 
-	cube = new rubik(0,25,0,50);
+	cube = new Rubik(0,25,0,50);
 	scene.add(poolBall);
 	scene.add(chess);
 	scene.add(cube);
@@ -159,7 +159,7 @@ function updatePerspectiveCamera(camera){
 function updateOrthographicCamera(camera){
 	'use strict';
 
-	var viewHeight = 100;
+	var viewHeight = pauseScreen.height;
 	var aspect = window.innerWidth / window.innerHeight;
 
 	if(window.innerHeight>0 && window.innerWidth>0){
@@ -185,11 +185,17 @@ function createPrespCamera(){
 	prespCamera.lookAt(0, 0, 0);
 }
 
-function createOrthoCamera(){
+function createOrthoCamera(plane){
 	'use strict';
 
-	orthoCamera = new THREE.OrthographicCamera(50, -50, -50, 50,
-	   									   	   -1000, 1000);
+	var viewHeight = plane.height;
+	var aspect = window.innerWidth / window.innerHeight;
+
+	orthoCamera = new THREE.OrthographicCamera(aspect*viewHeight/2,
+										      -aspect*viewHeight/2,
+										      -viewHeight/2,
+										       viewHeight/2,
+		   								      -1000, 1000);
 	orthoCamera.position.set(0, 100, 0);
 	orthoCamera.lookAt(0, 0, 0);
 	orthoCamera.rotation.z = Math.PI;

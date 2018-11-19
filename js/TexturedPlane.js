@@ -19,6 +19,8 @@ class TexturedPlane extends	THREE.Object3D{
 		this.mesh.position.set(posX, posY, posZ);	
 		this.add(this.mesh);
 
+		this.width  = width;
+		this.height = height;
 	}
 
 	setPhongMaterial(src){

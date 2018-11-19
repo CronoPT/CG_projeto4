@@ -53,7 +53,6 @@ function init(){
 			
 	window.addEventListener("resize", onResize);
 	window.addEventListener("keydown", onKeyDown);
-	window.addEventListener("keyup", onKeyUp);
 }
 
 /*--------------------------------------------------------------------
@@ -220,22 +219,6 @@ function onKeyDown(e){
 	console.log(e);
 	switch(e.keyCode){
 
-		case 49: //1
-			
-			break;
-
-		case 50: //2
-			
-			break;
-
-		case 51: //3
-			
-			break;
-
-		case 52: //4
-			
-			break;
-		
 		case 66://B
 		case 98://b
 			poolBall.toggleAcceleration();
@@ -243,29 +226,31 @@ function onKeyDown(e){
 
 		case 68: //D
 		case 100: //d
-			directLight.intensity = (directLight.intensity + 1)%2;
-
-		case 71:  // G
-		case 103: // g
-			
+			if( !paused){
+				directLight.intensity = (directLight.intensity + 1)%2;
+			}
 			break;
 
 		case 76:  // L
 		case 108: // l
-			if(light == true){
-				cube.lightOff();
-				poolBall.lightOff();
+			if( ! paused){
+				if(light == true){
+					cube.lightOff();
+					poolBall.lightOff();
+				}
+				else{
+					cube.lightOn();
+					poolBall.lightOn();
+				}
+				light = !light;
 			}
-			else{
-				cube.lightOn();
-				poolBall.lightOn();
-			}
-			light = !light;
 			break;
 
 		case 80: //P
 		case 112: //p
-			pointLight.intensity = (pointLight.intensity +1) %2;
+			if( ! paused){
+				pointLight.intensity = (pointLight.intensity +1) %2;
+			}
 			break;
 
 		case 82:  //R
@@ -284,35 +269,13 @@ function onKeyDown(e){
 
 		case 87://W
 		case 119://w
-			poolBall.switchWireframe();
-			chess.switchWireframe();
-			cube.switchWireframe();
+			if( ! paused){
+				poolBall.switchWireframe();
+				chess.switchWireframe();
+				cube.switchWireframe();
+			}
 			break;
 
-	}
-
-
-}
-
-
-function onKeyUp(e){
-	'use strict';
-	switch(e.keyCode){
-		case 37: //left arrow
-			
-			break;
-
-		case 39: //right arrow
-
-			break;
-
-		case 38: //up arrow
-
-			break;
-
-		case 40: //down arrow
-	
-			break;
 	}
 
 

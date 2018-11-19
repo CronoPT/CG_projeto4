@@ -68,6 +68,7 @@ function animate(){
 		render(pausedScene, orthoCamera);
 	}
 	else{
+		
 		poolBall.move(delta);
 		render(scene, prespCamera);
 	}
@@ -158,6 +159,23 @@ function updatePerspectiveCamera(camera){
 function updateOrthographicCamera(camera){
 	'use strict';
 
+
+	// var razao = initwh/(window.innerWidth * window.innerHeight);
+    	
+	// if(lastheight !=  window.innerHeight){
+	// 	razao = lastheight/window.innerHeight;
+	// 	camera.left   =  camera.left * razao;
+	// 	camera.right  = camera.right * razao; 
+	// 	lastheight = window.innerHeight;
+	// }
+	// if(lastwidth != window.innerWidth){
+	// 	razao = lastwidth/window.innerWidth;
+	// 	camera.top    = camera.top * razao;
+	// 	camera.bottom =  camera.bottom * razao; 
+	// 	lastwidth = window.innerWidth;
+	// }
+
+	camera.updateProjectionMatrix();
 	var viewHeight = pauseScreen.height;
 	var aspect = window.innerWidth / window.innerHeight;
 

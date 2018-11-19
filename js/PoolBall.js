@@ -47,7 +47,8 @@ class PoolBall extends THREE.Object3D{
     }
 
     setBasicMaterial(src){
-    	'use strict';
+        'use strict';
+        
     	var texture = new THREE.TextureLoader().load(src);
         var material = new THREE.MeshBasicMaterial();
     	material.map = texture;
@@ -73,7 +74,7 @@ class PoolBall extends THREE.Object3D{
 
     move(delta){
         'use strict';
-        console.log(this.speed);
+
         if(this.accelerating){
         	if(this.speed < MAXSPEED)
             	this.speed += this.accel * delta;
@@ -97,7 +98,8 @@ class PoolBall extends THREE.Object3D{
     }
 
     reset(){
-        console.table(this.rotation);
+        'use strict';
+
         this.rotation.set(0, 0, 0);
         this.mesh.rotation.x = 0;
         this.speed = 0;
@@ -112,24 +114,26 @@ class PoolBall extends THREE.Object3D{
         
         // reset material
         this.mesh.material = this.materialPhong;
-
-        console.table(this.rotation);
     }
 
 
     lightOn(){
+        'use strict';
+
     	this.mesh.material = this.materialPhong;
     }
 
     lightOff(){
+        'use strict';
+
     	this.mesh.material = this.materialBasic;
     }
 
     switchWireframe(){
+        'use strict';
+
 		this.materialPhong.wireframe = ! this.materialPhong.wireframe;
 		this.materialBasic.wireframe = ! this.materialBasic.wireframe;
     }
-
-
 
 }

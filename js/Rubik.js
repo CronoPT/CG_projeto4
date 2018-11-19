@@ -3,16 +3,18 @@ class Rubik extends THREE.Object3D{
 
 
 	constructor(posX,posY,posZ,size){
+		'use strict';
+
 		super();
 		
 		var bumpM = new THREE.TextureLoader().load('images/bumpMap.png');
 
 		this.texturas = [
-			"images/yellowface.png",
+			"images/redface.png",
 			"images/blueface.png",
 			"images/greenface.png",
 			"images/whiteface.png",
-			"images/redface.png",
+			"images/yellowface.png",
 			"images/orangeface.png"
 		]
 
@@ -46,6 +48,8 @@ class Rubik extends THREE.Object3D{
 	}
 
 	reset(){
+		'use strict';
+
 		for(var i=0;i< 6;i++){
 			
 			// reset wireframe
@@ -71,6 +75,8 @@ class Rubik extends THREE.Object3D{
 
 
 	switchWireframe(){
+		'use strict';
+
 		for(var i=0;i< 6;i++){
 			this.materialPhongFaces[i].wireframe = ! this.materialPhongFaces[i].wireframe;
 			this.materialBasicFaces[i].wireframe = ! this.materialBasicFaces[i].wireframe;

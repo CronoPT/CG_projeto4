@@ -49,6 +49,8 @@ class TexturedPlane extends	THREE.Object3D{
 	}
 
 	reset(){
+		'use strict';
+
 		// reset wireframe
 		this.materialPhong.wireframe = false;
 		this.materialBasic.wireframe = false;
@@ -58,14 +60,20 @@ class TexturedPlane extends	THREE.Object3D{
 	}
 	
 	lightOn(){
+		'use strict';
+
     	this.mesh.material = this.materialPhong;
     }
 
     lightOff(){
+		'use strict';
+
     	this.mesh.material = this.materialBasic;
     }
 
 	switchWireframe(){
+		'use strict';
+		
 		this.materialPhong.wireframe = ! this.materialPhong.wireframe;
 		this.materialBasic.wireframe = ! this.materialBasic.wireframe;
 	}

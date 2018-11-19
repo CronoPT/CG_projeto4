@@ -102,11 +102,11 @@ function createScene(){
 	scene.add(cube);
 
 	directLight = new THREE.DirectionalLight(0xaaaaaa,1);
-	directLight.position.set(50,50,50);
+	directLight.position.set(50, 50, 50);
 	scene.add(directLight);
 
-	pointLight= new THREE.PointLight(0xaaaaaa,1,2000);
-	pointLight.position.set(-40,100,-40);
+	pointLight= new THREE.PointLight(0xaaaaaa, 1, 2000, 10);
+	pointLight.position.set(-40, 100, -40);
 	scene.add(pointLight);
 	
 
@@ -226,7 +226,7 @@ function onKeyDown(e){
 
 		case 68: //D
 		case 100: //d
-			if( !paused){
+			if( ! paused){
 				directLight.intensity = (directLight.intensity + 1)%2;
 			}
 			break;

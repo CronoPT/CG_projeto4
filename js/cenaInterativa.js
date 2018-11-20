@@ -30,6 +30,7 @@ function init(){
 
 	renderer = new THREE.WebGLRenderer( {antialias:true} );
 	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.autoClear = false;
 	document.body.appendChild(renderer.domElement);
 
 	createScene();
@@ -62,16 +63,18 @@ function init(){
 function animate(){
 	'use strict';
 
+	renderer.clear();
+
 	var delta = clock.getDelta();
 	if(paused){
-
-		render(pausedScene, orthoCamera);
-	}
+		renderer.setViewport(window.innerWidth/4, window.innerHeight/4, window.innerWidth/2, window.innerHeight/2);
+		renderer.render(pausedScene, orthoCamera);
+	}	
 	else{
-		
 		poolBall.move(delta);
-		render(scene, prespCamera);
 	}
+	renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+	renderer.render(scene, prespCamera);
 	requestAnimationFrame(animate);
 }
 
@@ -138,7 +141,7 @@ function onResize(){
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
 	updatePerspectiveCamera(prespCamera);
-	updateOrthographicCamera(orthoCamera);
+	//updateOrthographicCamera(orthoCamera);
 }
 
 /*--------------------------------------------------------------------
